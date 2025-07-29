@@ -7,11 +7,13 @@ import { InvoicesTableSkeleton } from "@/app/ui/skeletons";
 import { Suspense } from "react";
 import { fetchInvoicesPages } from "@/app/lib/data";
 
-export default async function Page({
-  searchParams,
-}: {
+// ✅ Tidak ada "use client" karena ini Server Component
+export default async function Page(props: {
   searchParams?: Record<string, string | string[] | undefined>;
 }) {
+  const { searchParams } = props;
+
+  // ✅ Validasi aman untuk nilai dari URL
   const query =
     typeof searchParams?.query === "string" ? searchParams.query : "";
   const currentPage =
