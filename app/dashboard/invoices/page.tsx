@@ -7,17 +7,16 @@ import { InvoicesTableSkeleton } from "@/app/ui/skeletons";
 import { Suspense } from "react";
 import { fetchInvoicesPages } from "@/app/lib/data";
 
-// ✅ Tidak ada "use client" karena ini Server Component
-export default async function Page(props: {
-  searchParams?: Record<string, string | string[] | undefined>;
-}) {
-  const { searchParams } = props;
+type SearchParams = {
+  searchParams?: {
+    query?: string;
+    page?: string;
+  };
+};
 
-  // ✅ Validasi aman untuk nilai dari URL
-  const query =
-    typeof searchParams?.query === "string" ? searchParams.query : "";
-  const currentPage =
-    typeof searchParams?.page === "string" ? Number(searchParams.page) : 1;
+export default async function Page({ searchParams }: SearchParams) {
+  const query = searchParams?.query ?? "";
+  const currentPage = Number(searchParams?.page ?? 1);
 
   const totalPages = await fetchInvoicesPages(query);
 
