@@ -7,19 +7,16 @@ import { InvoicesTableSkeleton } from "@/app/ui/skeletons";
 import { Suspense } from "react";
 import { fetchInvoicesPages } from "@/app/lib/data";
 
-// ✅ Gunakan tipe yang sesuai dengan Next.js App Router
 export default async function Page({
   searchParams,
 }: {
-  searchParams?: { [key: string]: string | string[] | undefined };
+  searchParams?: { [key: string]: unknown };
 }) {
-  // ✅ Pastikan nilai aman dikonversi
   const query =
     typeof searchParams?.query === "string" ? searchParams.query : "";
   const currentPage =
     typeof searchParams?.page === "string" ? Number(searchParams.page) : 1;
 
-  // ✅ Ambil total halaman berdasarkan query
   const totalPages = await fetchInvoicesPages(query);
 
   return (
